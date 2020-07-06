@@ -1,0 +1,120 @@
+<!--         <div class="row">-->
+<!--             <div class="col-md-4">-->
+<!--            <ul *ngIf="villes" class="list-group">-->
+<!--                <li *ngFor="let v of villes._embedded.villes">-->
+
+<!--                </li>-->
+<!--            </ul>-->
+<!--             </div>-->
+<!--    <div class="col-md-8">Liste des cinémas></div>-->
+
+<!-- </div>-->
+
+<!--    </div>-->
+<!--</div>-->
+<div class="container-fluid pt-5 ">
+    <div class="container pt-5">
+        <div class="row">
+            <div class=" col-md-3" style="margin-left: -100px">
+                <div class="card">
+                    <ul *ngIf="villes " class="list-group list-group-flush">
+
+                        <li [ngClass]="v==currentVille?'active':''" *ngFor="let v of villes._embedded.villes"
+                            class="list-group-item list-group-item-action list-group-item-primary clickable"
+                            (click)="onGetCinemas(v)"
+                            data-background-color="black">
+                            {{v.name}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card ">
+                    <div class="card-header font-weight-normal">Listes des cinemas</div>
+                    <div class="card-body">
+                        <ul *ngIf="cinemas" class="nav nav-tabs">
+                            <li [ngClass]="c==currentCinema?'active':''" *ngFor="let c of cinemas._embedded.cinemas"
+                                class="nav-item  clickable">
+                                <a [ngClass]="c==currentCinema?'active':''" (click)="onGetSalles(c)"
+                                   class="nav-link text-lg-right">{{c.name}}</a>
+                            </li>
+                        </ul>
+                        <!--        <div class="card">-->
+
+                        <!--             <div class="card-header">Listes des Cinémas</div>-->
+                        <!--               <div class="card-body">-->
+                        <!--                   <ul *ngIf="cinemas" class="nav nav-pills">-->
+                        <!--                       <li *ngFor="let c of cinemas._embedded.cinemas">-->
+                        <!--                           <a class="btn btn-dark"   (click)="onGetSalles(c)">-->
+                        <!--                           {{c.name}}</a>-->
+                        <!--                       </li>-->
+                        <!--                   </ul>-->
+                        <div class="row" *ngIf="salles">
+
+                            <div *ngFor="let s of  salles._embedded.salles">
+
+                                <div class="col-md-10">
+                                    <div class="card ">
+                                        <div class="card-header">{{s.name}}</div>
+
+                                        <div class="card-body" *ngIf="s.projections">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <img src="{{cinemaService.host+'/imageFilm/'+s.projections._embedded.projections[0].film.id}}">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item txt-white"
+                                                            data-background-color="black" filter-color="white">Séances :
+                                                        </li>
+                                                        <li [ngClass]="p==currentProjection?'active':''"
+                                                            (click)="onGetPlaces(p)"
+                                                            *ngFor="let p of s.projections._embedded.projections"
+                                                            class="list-group-item list-group-item-action list-group-item-primary clickable txt-white "
+                                                            data-background-color="black">
+                                                            {{p.seance.heureDebut}}=>Prix : {{p.prix|number: '0.00'}} DH
+
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="currentProjection">
+                                                <div *ngIf="s.id==currentProjection.salle.id">
+                                                    <div class="row" *ngIf="currentProjection.tickets">
+                                                        <button class="{{getTicketClass(t)}} "
+                                                                (click)="onSelectTicket(t)" [disabled]="t.reservee"
+                                                                *ngFor="let t of currentProjection.tickets._embedded.tickets">
+                                                            {{t.place.numero}}
+                                                        </button>
+                                                    </div>
+                                                    <div *ngIf="selectedTickets.length>0">
+                                                        <form #f="ngForm" (ngSubmit)="onpayerTickets(f.value)">
+                                                            <div class="form-group">
+                                                                <label class="control-label">Nom client</label>
+                                                                <input class="form-control" type="text"
+                                                                       name="nomClient" ngModel>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label">Code Payement</label>
+                                                                <input class="form-control" type="text"
+                                                                       name="codePayement" ngModel>
+                                                            </div>
+                                                            <button type="submit" class="btn btn-success bg-dark txt-white">Payer</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>

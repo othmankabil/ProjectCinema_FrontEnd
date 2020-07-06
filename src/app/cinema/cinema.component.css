@@ -1,0 +1,20 @@
+.clickable{
+    cursor: pointer;
+
+}
+img {
+    width: 100%;
+    border-radius: 8px;
+}
+.ticket{
+    margin :2px;
+    align-items: center;
+    /*animation: forwards;*/
+    background: black;
+    /*width : 50px;*/
+}
+
+::selection {
+    color: white;
+    background: green;
+}
